@@ -6,8 +6,7 @@ def setFont(fontname,size,font,slant):
         file.write(str(size)+"\n")
         file.write(str(font)+'\n')
         file.write(str(slant)+'\n')
-        file.close()
-            
+        file.close()   
     else:
         os.mkdir("folder")
         file = open("folder/fontdata.txt",'x')
