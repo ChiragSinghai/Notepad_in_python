@@ -3,7 +3,7 @@ from tkinter import filedialog, messagebox
 import os.path
 from tkinter import font, ttk
 from fontsave import getFont
-from tester import Replace, Find,configure
+from tester import Replace, Find, configure
 
 
 class Main:

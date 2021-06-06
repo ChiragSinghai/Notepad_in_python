@@ -3,7 +3,7 @@ from tkinter import filedialog, messagebox
 import os.path
 from tkinter import font, ttk
 import fontsave
-from tester import Replace,Find,configure
+#from tester import Replace,Find,configure
 
 master = Tk()
 fontandsize = fontsave.getFont()

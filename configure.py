@@ -119,7 +119,7 @@ class configure():
 
     
 if __name__=='__main__':
-    button=Button(master,text="press",command=lambda :configure(master,master.winfo_x(),master.winfo_y()))
+    button=Button(master,text="press",command=lambda:configure(master,master.winfo_x(),master.winfo_y()))
     button.pack()
     label=Label(master,text='hey font is changing',font=defaultfont)
     label.pack()
