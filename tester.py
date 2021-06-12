@@ -52,6 +52,9 @@ class Replace:
 class Find:
     exist = False
     def __init__(self, master, textobj):
+        self.current_index = None
+        self.current_word = None
+        self.find_list=[]
         if not Find.exist:
             self.master = master
             self.findmaster = Toplevel(self.master, takefocus=True)
@@ -59,14 +62,13 @@ class Find:
             self.textobj = textobj
             self.design()
             Find.exist = True
-
             self.findmaster.mainloop()
         else:
             pass
 
     def design(self):
         self.findmaster.transient(self.master)
-        self.findmaster.geometry(f"400x150+{self.master.winfo_x()}+{self.master.winfo_y()}")
+        self.findmaster.geometry(f"400x110+{self.master.winfo_x()+20}+{self.master.winfo_y()+10}")
         self.findmaster.resizable(False, False)
         self.findmaster.title('Find')
         self.findvar = StringVar()
@@ -75,7 +77,7 @@ class Find:
         self.findLabel = Label(self.findmaster, text='Find', font=('Arial', 10, 'bold'))
         self.findEntry = Entry(self.findmaster, textvariable=self.findvar, width=28, font=('Arial', 10, 'bold'))
         self.findButton = Button(self.findmaster, text='Find', width=10, command=self.findnext, relief='solid')
-        self.findallButton = Button(self.findmaster, text='Find All', command='', width=10, relief='solid')
+        self.findallButton = Button(self.findmaster, text='Find All', command=self.get_txt_list, width=10, relief='solid')
         self.casecheck = Checkbutton(self.findmaster, text='Case', variable=self.case)
         self.exactcheck = Checkbutton(self.findmaster, text='Exact', variable=self.exact)
         self.closebutton = Button(self.findmaster,text='Close',command=self.onclose,width=10,relief='solid')
@@ -86,14 +88,57 @@ class Find:
         self.closebutton.place(x=310,y=70)
         self.casecheck.place(x=80, y=40)
         self.exactcheck.place(x=130, y=40)
+        self.findEntry.focus_set()
 
     def onclose(self):
         Find.exist = False
         self.findmaster.destroy()
-        #self.findmaster.quit()
+
 
     def findnext(self):
         print(self.exact.get(),self.case.get())
+        self.textobj.tag_remove('Found','1.0',END)
+        if self.current_word == self.findEntry.get():
+            if self.find_list:
+                if self.current_index+1 >= len(self.find_list):
+                    self.current_index = 0
+                else:
+                    self.current_index += 1
+                lastidx = '% s+% dc' % (self.find_list[self.current_index], len(self.current_word))
+                self.textobj.tag_add('Found',self.find_list[self.current_index],lastidx)
+                self.textobj.tag_config('Found',background='orange')
+        else:
+            self.current_word = self.findEntry.get()
+            self.get_txt_list()
+            self.current_index = 0
+            if self.find_list:
+                lastidx = '% s+% dc' % (self.find_list[self.current_index], len(self.current_word))
+                self.textobj.tag_add('Found', self.find_list[self.current_index], lastidx)
+                self.textobj.tag_config('Found', background='orange')
+
+    def findall(self):
+        self.textobj.tag_remove('All','1.0',END)
+        self.get_txt_list()
+        for word_index in self.find_list:
+            lastidx = '% s+% dc' % (word_index, len(self.findEntry.get()))
+            self.textobj.tag_add('All',word_index,lastidx)
+        self.textobj.tag_config('All',backgorund='red')
+
+    def get_txt_list(self):
+        if self.findEntry.get():
+            self.find_list.clear()
+            txt_to_search = self.findEntry.get()
+            if txt_to_search:
+                idx = '1.0'
+                while True:
+                    idx = self.textobj.search(txt_to_search,idx,nocase=self.case.get(),stopindex=END)
+                    if not idx:
+                        break
+                    self.find_list.append(idx)
+                    lastidx = '% s+% dc' % (idx, len(self.findEntry.get()))
+                    idx = lastidx
+                    print(idx)
+            print(self.find_list)
 
 
 
