@@ -54,7 +54,7 @@ class Find:
     def __init__(self, master, textobj):
         self.current_index = None
         self.current_word = None
-        self.find_list=[]
+        self.find_list = []
         if not Find.exist:
             self.master = master
             self.findmaster = Toplevel(self.master, takefocus=True)
@@ -72,15 +72,15 @@ class Find:
         self.findmaster.resizable(False, False)
         self.findmaster.title('Find')
         self.findvar = StringVar()
-        self.case = IntVar()
-        self.exact = IntVar()
+        self.case = IntVar(0)
+        self.exact = IntVar(0)
         self.findLabel = Label(self.findmaster, text='Find', font=('Arial', 10, 'bold'))
         self.findEntry = Entry(self.findmaster, textvariable=self.findvar, width=28, font=('Arial', 10, 'bold'))
         self.findButton = Button(self.findmaster, text='Find', width=10, command=self.findnext, relief='solid')
-        self.findallButton = Button(self.findmaster, text='Find All', command=self.get_txt_list, width=10, relief='solid')
-        self.casecheck = Checkbutton(self.findmaster, text='Case', variable=self.case)
-        self.exactcheck = Checkbutton(self.findmaster, text='Exact', variable=self.exact)
-        self.closebutton = Button(self.findmaster,text='Close',command=self.onclose,width=10,relief='solid')
+        self.findallButton = Button(self.findmaster, text='Find All', command=self.findall, width=10, relief='solid')
+        self.casecheck = Checkbutton(self.findmaster, text='Case', variable=self.case,command=self.case_fun)
+        self.exactcheck = Checkbutton(self.findmaster, text='Regexp', variable=self.exact,command=self.exact_fun)
+        self.closebutton = Button(self.findmaster,text='Close',command=self.tagremover,width=10,relief='solid')
         self.findButton.place(x=310, y=10)
         self.findallButton.place(x=310, y=40)
         self.findLabel.place(x=20, y=10)
@@ -90,39 +90,56 @@ class Find:
         self.exactcheck.place(x=130, y=40)
         self.findEntry.focus_set()
 
+    def case_fun(self):
+        self.find_list.clear()
+        self.current_word = None
+
+    def exact_fun(self):
+        self.find_list.clear()
+        self.current_word = None
+
     def onclose(self):
         Find.exist = False
+        self.tagremover()
         self.findmaster.destroy()
 
+    def tagremover(self):
+        print(self.textobj.tag_names())
+        for tag in self.textobj.tag_names():
+            if tag != 'sel':
+                self.textobj.tag_remove(tag,'1.0',END)
 
     def findnext(self):
-        print(self.exact.get(),self.case.get())
+        #print(self.exact.get(),self.case.get())
         self.textobj.tag_remove('Found','1.0',END)
+        #self.tagremover()
         if self.current_word == self.findEntry.get():
-            if self.find_list:
-                if self.current_index+1 >= len(self.find_list):
-                    self.current_index = 0
-                else:
-                    self.current_index += 1
-                lastidx = '% s+% dc' % (self.find_list[self.current_index], len(self.current_word))
-                self.textobj.tag_add('Found',self.find_list[self.current_index],lastidx)
-                self.textobj.tag_config('Found',background='orange')
+            if self.current_index+1 >= len(self.find_list):
+                self.current_index = 0
+            else:
+                self.current_index += 1
         else:
+            self.tagremover()
             self.current_word = self.findEntry.get()
             self.get_txt_list()
             self.current_index = 0
-            if self.find_list:
-                lastidx = '% s+% dc' % (self.find_list[self.current_index], len(self.current_word))
-                self.textobj.tag_add('Found', self.find_list[self.current_index], lastidx)
-                self.textobj.tag_config('Found', background='orange')
+        if self.find_list:
+            lastidx = '% s+% dc' % (self.find_list[self.current_index], len(self.current_word))
+            self.textobj.tag_add('Found', self.find_list[self.current_index], lastidx)
+            self.textobj.tag_config('Found', background='orange')
+            self.textobj.tag_raise('Found')
 
     def findall(self):
-        self.textobj.tag_remove('All','1.0',END)
+        #self.tagremover()
+        if self.current_word != self.findEntry.get():
+            self.tagremover()
+        else:
+            self.textobj.tag_remove('All','1.0',END)
         self.get_txt_list()
         for word_index in self.find_list:
             lastidx = '% s+% dc' % (word_index, len(self.findEntry.get()))
             self.textobj.tag_add('All',word_index,lastidx)
-        self.textobj.tag_config('All',backgorund='red')
+        self.textobj.tag_config('All',background='yellow')
 
     def get_txt_list(self):
         if self.findEntry.get():
@@ -131,15 +148,12 @@ class Find:
             if txt_to_search:
                 idx = '1.0'
                 while True:
-                    idx = self.textobj.search(txt_to_search,idx,nocase=self.case.get(),stopindex=END)
+                    idx = self.textobj.search(txt_to_search,idx,nocase=not(self.case.get()),regexp=self.exact.get(),stopindex=END)
                     if not idx:
                         break
                     self.find_list.append(idx)
                     lastidx = '% s+% dc' % (idx, len(self.findEntry.get()))
                     idx = lastidx
-                    print(idx)
-            print(self.find_list)
-
 
 
 if __name__ == '__main__':
