@@ -7,7 +7,7 @@ class Replace:
         if not Replace.exist:
             self.master = master
             self.replacemaster = Toplevel(self.master, takefocus=True)
-            self.replacemaster.protocol("WM_DELETE_WINDOW", onclose)
+            self.replacemaster.protocol("WM_DELETE_WINDOW",self.onclose)
             self.textobj = textobj
             self.design()
             Replace.exist = True
@@ -48,6 +48,71 @@ class Replace:
     def onclose(self):
         Replace.exist = False
         self.replacemaster.destroy()
+
+    def case_fun(self):
+        self.find_list.clear()
+        self.current_word = None
+
+    def exact_fun(self):
+        self.find_list.clear()
+        self.current_word = None
+
+    def onclose(self):
+        Find.exist = False
+        self.tagremover()
+        self.findmaster.destroy()
+
+    def tagremover(self):
+        print(self.textobj.tag_names())
+        for tag in self.textobj.tag_names():
+            if tag != 'sel':
+                self.textobj.tag_remove(tag,'1.0',END)
+
+    def findnext(self):
+        #print(self.exact.get(),self.case.get())
+        self.textobj.tag_remove('Found','1.0',END)
+        #self.tagremover()
+        if self.current_word == self.findEntry.get():
+            if self.current_index+1 >= len(self.find_list):
+                self.current_index = 0
+            else:
+                self.current_index += 1
+        else:
+            self.tagremover()
+            self.current_word = self.findEntry.get()
+            self.get_txt_list()
+            self.current_index = 0
+        if self.find_list:
+            lastidx = '% s+% dc' % (self.find_list[self.current_index], len(self.current_word))
+            self.textobj.tag_add('Found', self.find_list[self.current_index], lastidx)
+            self.textobj.tag_config('Found', background='orange')
+            self.textobj.tag_raise('Found')
+
+    def findall(self):
+        #self.tagremover()
+        if self.current_word != self.findEntry.get():
+            self.tagremover()
+        else:
+            self.textobj.tag_remove('All','1.0',END)
+        self.get_txt_list()
+        for word_index in self.find_list:
+            lastidx = '% s+% dc' % (word_index, len(self.findEntry.get()))
+            self.textobj.tag_add('All',word_index,lastidx)
+        self.textobj.tag_config('All',background='yellow')
+
+    def get_txt_list(self):
+        if self.findEntry.get():
+            self.find_list.clear()
+            txt_to_search = self.findEntry.get()
+            if txt_to_search:
+                idx = '1.0'
+                while True:
+                    idx = self.textobj.search(txt_to_search,idx,nocase=not(self.case.get()),regexp=self.exact.get(),stopindex=END)
+                    if not idx:
+                        break
+                    self.find_list.append(idx)
+                    lastidx = '% s+% dc' % (idx, len(self.findEntry.get()))
+                    idx = lastidx
 
 class Find:
     exist = False
