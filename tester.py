@@ -9,6 +9,9 @@ class Replace:
             self.replacemaster = Toplevel(self.master, takefocus=True)
             self.replacemaster.protocol("WM_DELETE_WINDOW",self.onclose)
             self.textobj = textobj
+            self.current_index = None
+            self.current_word = None
+            self.find_list = []
             self.design()
             Replace.exist = True
             self.replacemaster.mainloop()
@@ -27,13 +30,13 @@ class Replace:
         self.findLabel = Label(self.replacemaster,text='Find', font=('Arial', 10, 'bold'))
         self.findEntry = Entry(self.replacemaster,textvariable=self.findvar, width=28, font=('Arial', 10, 'bold'))
         self.replaceLabel=Label(self.replacemaster,text='Replace', font=('Arial', 10, 'bold'))
-        self.replaceEntry = Entry(self.replacemaster,textvariable=self.replacevar, width=28,font=('Arial', 10, ))
-        self.findButton = Button(self.replacemaster,text='Find',width=10,command='',relief='solid')
-        self.findallButton = Button(self.replacemaster,text='Find ALL',command='',width=10,relief='solid')
-        self.replaceButton = Button(self.replacemaster,text='Replace',command='',width=10,relief='solid')
-        self.repAllButton = Button(self.replacemaster,text='Replace All',command='',width=10,relief='solid')
-        self.casecheck = Checkbutton(self.replacemaster,text='Case',variable=self.case)
-        self.exactcheck = Checkbutton(self.replacemaster,text='Exact',variable=self.exact)
+        self.replaceEntry = Entry(self.replacemaster,textvariable=self.replacevar, width=28,font=('Arial', 10,'bold'))
+        self.findButton = Button(self.replacemaster,text='Find',width=10,command=self.findnext,relief='solid')
+        self.findallButton = Button(self.replacemaster,text='Find All',command=self.findall,width=10,relief='solid')
+        self.replaceButton = Button(self.replacemaster,text='Replace',width=10,relief='solid',command=self.replace)
+        self.repAllButton = Button(self.replacemaster,text='Replace All',command=self.replaceall,width=10,relief='solid')
+        self.casecheck = Checkbutton(self.replacemaster,text='Case',variable=self.case,command=self.case_fun)
+        self.exactcheck = Checkbutton(self.replacemaster,text='Regexp',variable=self.exact,command=self.exact_fun)
         self.findLabel.place(x=20, y=10)
         self.findEntry.place(x=80, y=10)
         self.replaceLabel.place(x=15, y=50)
@@ -47,23 +50,55 @@ class Replace:
 
     def onclose(self):
         Replace.exist = False
+        self.tagremover()
         self.replacemaster.destroy()
+
+    def replace(self):
+        if self.current_word == self.findEntry.get():
+            if self.find_list:
+                replaced_word = self.replaceEntry.get()
+                lastidx = '% s+% dc' % (self.find_list[self.current_index], len(self.findEntry.get()))
+                self.textobj.delete(self.find_list[self.current_index], lastidx)
+                self.textobj.insert(self.find_list[self.current_index], replaced_word)
+                self.get_txt_list()
+                if self.current_index <= len(self.find_list)-2:
+                    self.current_index -= 1
+                else:
+                    self.current_index = 0
+                self.findnext()
+
+        else:
+            self.findnext()
+            self.replace()
+
+    def replaceall(self):
+        self.current_word = None
+        self.findnext()
+        for _ in range(len(self.find_list)):
+            replaced_word = self.replaceEntry.get()
+            lastidx = '% s+% dc' % (self.find_list[self.current_index], len(self.findEntry.get()))
+            self.textobj.delete(self.find_list[self.current_index], lastidx)
+            self.textobj.insert(self.find_list[self.current_index], replaced_word)
+            self.get_txt_list()
+            if self.current_index <= len(self.find_list) - 2:
+                self.current_index -= 1
+            else:
+                self.current_index = 0
+            self.findnext()
+
 
     def case_fun(self):
         self.find_list.clear()
         self.current_word = None
+        self.findnext()
 
     def exact_fun(self):
         self.find_list.clear()
         self.current_word = None
-
-    def onclose(self):
-        Find.exist = False
-        self.tagremover()
-        self.findmaster.destroy()
+        self.findnext()
 
     def tagremover(self):
-        print(self.textobj.tag_names())
+        #print(self.textobj.tag_names())
         for tag in self.textobj.tag_names():
             if tag != 'sel':
                 self.textobj.tag_remove(tag,'1.0',END)
@@ -158,10 +193,12 @@ class Find:
     def case_fun(self):
         self.find_list.clear()
         self.current_word = None
+        self.findnext()
 
     def exact_fun(self):
         self.find_list.clear()
         self.current_word = None
+        self.findnext()
 
     def onclose(self):
         Find.exist = False
@@ -169,7 +206,7 @@ class Find:
         self.findmaster.destroy()
 
     def tagremover(self):
-        print(self.textobj.tag_names())
+        #print(self.textobj.tag_names())
         for tag in self.textobj.tag_names():
             if tag != 'sel':
                 self.textobj.tag_remove(tag,'1.0',END)
@@ -225,6 +262,7 @@ if __name__ == '__main__':
     root = Tk()
     text = Text(root)
     text.pack(fil=BOTH)
-    button = Button(root, text='press', command=lambda: Find(root, text))
+    text.insert('1.0','hy and why and Hy')
+    button = Button(root, text='press', command=lambda: Replace(root, text))
     button.pack()
     root.mainloop()
