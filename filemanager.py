@@ -9,8 +9,8 @@ def getsize(master):
     createFolder()
     if not(os.path.isfile('C://Encrypted//size.txt')):
         file = open('C://Encrypted//size.txt','w')
-        file.write(str(master.winfo_screenheight())+'\n')
-        file.write(str(master.winfo_screenwidth())+'\n')
+        file.write(str(master.winfo_screenheight()//2)+'\n')
+        file.write(str(master.winfo_screenwidth()//2)+'\n')
         file.write('10'+'\n')
         file.write('10'+'\n')
         file.close()

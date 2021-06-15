@@ -5,6 +5,7 @@ from tkinter import font, ttk
 from fontsave import getFont
 from tester import Replace, Find
 from configure import configure
+from filemanager import setsize,getsize
 import sys
 
 
@@ -29,10 +30,9 @@ class Main:
         self.master.protocol("WM_DELETE_WINDOW", self.onclose)
         self.saved_position()
     def geometry(self):
-        height = int(self.master.winfo_screenheight() * 0.5)
-        width = int(self.master.winfo_screenwidth() * 0.5)
+        H, W, X, Y = getsize(self.master)
         self.master.title('untitled-Encrypted')
-        self.master.geometry(f'{width}x{height}+20+20')
+        self.master.geometry(f'{W}x{H}+{X}+{Y}')
 
     def menu_implement(self):
         self.menubar = Menu(self.master)
@@ -131,14 +131,17 @@ class Main:
             if answer:
                 if self.current_file:
                     self.save_file()
+                    setsize(self.master)
                     self.master.destroy()
                 else:
                     self.save_file()
             elif answer is None:
                 pass
             else:
+                setsize(self.master)
                 self.master.destroy()
         else:
+            setsize(self.master)
             self.master.destroy()
 
     def saved_position(self):
