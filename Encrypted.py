@@ -3,12 +3,13 @@ from tkinter import filedialog, messagebox
 import os.path
 from tkinter import font, ttk
 import fontsave
-#from tester import Replace,Find,configure
+from tester import Replace,Find
+from configure import configure
 
 master = Tk()
 fontandsize = fontsave.getFont()
-default_font = font.Font(family=fontandsize[0], size=(fontandsize[1]), weight='bold' if fontandsize[2] == '1' else 'normal',
-                         slant='italic' if fontandsize[3] == '1' else 'roman')
+default_font = font.Font(family=fontandsize[0], size=(fontandsize[1]), weight='bold' if fontandsize[2] == '1' else 'normal')
+                         #slant='italic' if fontandsize[3] == '1' else 'roman')
 current_file = None
 current_file_path = None
 saved = False
@@ -312,7 +313,7 @@ def find():
 
 
 def replace():
-    obj=Replace(master,myText)
+    obj = Replace(master,myText)
 
 menubar = Menu(master)
 master.config(menu=menubar)

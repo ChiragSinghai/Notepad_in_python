@@ -4,15 +4,11 @@ from tkinter import font, ttk
 import fontsave
 
 
-master=Tk()
-master.geometry('200x200+0+0')
-fontandsize = fontsave.getFont()
-
-defaultfont=font.Font(family=fontandsize[0],size=(fontandsize[1]),weight='bold' if fontandsize[2]=='1' else 'normal')
 class configure():
         
-    def __init__(self,root,X,Y):
-        self.top=Toplevel(root)
+    def __init__(self,root,X,Y,defaultfont):
+        self.top = Toplevel(root)
+        self.defaultfont = defaultfont
         self.width=600
         self.height=root.winfo_screenheight()-100
         X+=20
@@ -23,7 +19,7 @@ class configure():
         self.top.resizable(False,False)
     #===============================================
         
-        self.exampletextfont=font.Font(family=defaultfont['family'],size=defaultfont['size'],weight=defaultfont['weight'])
+        self.exampletextfont=font.Font(family=self.defaultfont['family'],size=self.defaultfont['size'],weight=self.defaultfont['weight'])
         #===============================================
         self.frame=Frame(self.top)
         self.frame.pack(fill=BOTH,expand=True)
@@ -40,10 +36,10 @@ class configure():
         self.sb.config(command=self.textlist.yview)
     #========================================================
         self.textlistname=font.families()
-        #print(defaultfont['family'])
+        #print(self.defaultfont['family'])
         for textname in self.textlistname:
             self.textlist.insert(END,textname)
-            if textname==defaultfont['family']:
+            if textname==self.defaultfont['family']:
                 self.textlist.activate(END)
                 self.textlist.index(END)
                 self.textlist.selection_set(END,last=None)
@@ -106,10 +102,10 @@ class configure():
         selectedfont=self.textlist.get(selected[0],last=None)
         bold=self.boldvar.get()
         selectedsize=self.sizevar.get()
-        defaultfont.configure(family=selectedfont,size=selectedsize,weight='bold' if bold==1 else 'normal')  
+        self.defaultfont.configure(family=selectedfont,size=selectedsize,weight='bold' if bold==1 else 'normal')
         fontsave.setFont(selectedfont,selectedsize,bold)
-        return selectedfont,selectedsize,bold
-##        print(defaultfont.actual())
+        #return selectedfont,selectedsize,bold
+##        print(self.defaultfont.actual())
 ##        print(self.exampletextfont.actual())
         self.top.destroy()
         
@@ -118,9 +114,16 @@ class configure():
         self.top.destroy()
 
     
-if __name__=='__main__':
-    button=Button(master,text="press",command=lambda:configure(master,master.winfo_x(),master.winfo_y()))
+if __name__ == '__main__':
+    master = Tk()
+    master.geometry('200x200+0+0')
+    fontandsize = fontsave.getFont()
+
+    defaultfont = font.Font(family=fontandsize[0], size=(fontandsize[1]),
+                            weight='bold' if fontandsize[2] == '1' else 'normal')
+
+    button = Button(master,text="press",command=lambda:configure(master,master.winfo_x(),master.winfo_y(),defaultfont))
     button.pack()
-    label=Label(master,text='hey font is changing',font=defaultfont)
+    label = Label(master,text='hey font is changing',font=defaultfont)
     label.pack()
     master.mainloop()

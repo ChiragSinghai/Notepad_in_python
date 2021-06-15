@@ -74,18 +74,21 @@ class Replace:
     def replaceall(self):
         self.current_word = None
         self.findnext()
+        self.textobj.tag_remove('replace_all','1.0',END)
         for _ in range(len(self.find_list)):
             replaced_word = self.replaceEntry.get()
             lastidx = '% s+% dc' % (self.find_list[self.current_index], len(self.findEntry.get()))
             self.textobj.delete(self.find_list[self.current_index], lastidx)
             self.textobj.insert(self.find_list[self.current_index], replaced_word)
+            idx = '% s+% dc' % (self.find_list[self.current_index], len(self.replaceEntry.get()))
+            self.textobj.tag_add('replace_all',self.find_list[self.current_index],idx)
             self.get_txt_list()
             if self.current_index <= len(self.find_list) - 2:
                 self.current_index -= 1
             else:
                 self.current_index = 0
             self.findnext()
-
+        self.textobj.tag_config('replace_all',background='blue')
 
     def case_fun(self):
         self.find_list.clear()
@@ -171,7 +174,7 @@ class Find:
         self.findmaster.geometry(f"400x110+{self.master.winfo_x()+20}+{self.master.winfo_y()+10}")
         self.findmaster.resizable(False, False)
         self.findmaster.title('Find')
-        self.findvar = StringVar()
+        self.findvar = StringVar('')
         self.case = IntVar(0)
         self.exact = IntVar(0)
         self.findLabel = Label(self.findmaster, text='Find', font=('Arial', 10, 'bold'))
@@ -180,7 +183,7 @@ class Find:
         self.findallButton = Button(self.findmaster, text='Find All', command=self.findall, width=10, relief='solid')
         self.casecheck = Checkbutton(self.findmaster, text='Case', variable=self.case,command=self.case_fun)
         self.exactcheck = Checkbutton(self.findmaster, text='Regexp', variable=self.exact,command=self.exact_fun)
-        self.closebutton = Button(self.findmaster,text='Close',command=self.tagremover,width=10,relief='solid')
+        self.closebutton = Button(self.findmaster,text='Close',command=self.onclose,width=10,relief='solid')
         self.findButton.place(x=310, y=10)
         self.findallButton.place(x=310, y=40)
         self.findLabel.place(x=20, y=10)
@@ -259,10 +262,10 @@ class Find:
 
 
 if __name__ == '__main__':
-    root = Tk()
-    text = Text(root)
+    master = Tk()
+    text = Text(master)
     text.pack(fil=BOTH)
     text.insert('1.0','hy and why and Hy')
-    button = Button(root, text='press', command=lambda: Replace(root, text))
+    button = Button(master, text='press', command=lambda: Find(master, text))
     button.pack()
-    root.mainloop()
+    master.mainloop()

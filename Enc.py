@@ -3,15 +3,16 @@ from tkinter import filedialog, messagebox
 import os.path
 from tkinter import font, ttk
 from fontsave import getFont
-from tester import Replace, Find, configure
+from tester import Replace, Find
+from configure import configure
 
 
 class Main:
     def __init__(self, master):
         self.fontandsize = getFont()
         self.default_font = font.Font(family=self.fontandsize[0], size=(self.fontandsize[1]),
-                                      weight='bold' if self.fontandsize[2] == '1' else 'normal',
-                                      slant='italic' if self.fontandsize[3] == '1' else 'roman')
+                                      weight='bold' if self.fontandsize[2] == '1' else 'normal')
+                                      #slant='italic' if self.fontandsize[3] == '1' else 'roman')
         self.current_file = None
         self.current_file_path = None
         self.saved = False
@@ -175,7 +176,7 @@ class Main:
             answer = messagebox.askyesnocancel(title='Encrypted',
                                                message=f'Do you want to hey save changes to {self.current_file[0] if self.current_file else "untitled"}')
             if answer:
-                if current_file:
+                if self.current_file:
                     self.save_file()
                     self.open_file_internal()
                 else:
