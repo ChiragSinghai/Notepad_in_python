@@ -58,8 +58,8 @@ class Main:
         self.editmenu.add_separator()
         self.editmenu.add_command(label="Select All", command=self.select_all, accelerator='Ctrl-A')
         self.editmenu.add_separator()
-        self.editmenu.add_command(label="Find", command='', accelerator='Ctrl-F')
-        self.editmenu.add_command(label='Replace', command='', accelerator='Ctrl-R')
+        self.editmenu.add_command(label="Find", command=self.find, accelerator='Ctrl-F')
+        self.editmenu.add_command(label='Replace', command=self.replace, accelerator='Ctrl-R')
 
         # self.editmenu.add_command(label="Paste")
 
@@ -77,6 +77,12 @@ class Main:
         self.helpmenu = Menu(self.menubar, tearoff=0, )
         self.menubar.add_cascade(label="Help", menu=self.helpmenu)
         self.helpmenu.add_command(label="About us", command='')
+
+    def find(self):
+        obj = Find(self.master,self.myText)
+
+    def replace(self):
+        obj = Replace(self.master,self.myText)
 
     def loop(self):
         self.master.mainloop()
@@ -360,7 +366,6 @@ class Main:
             self.saved = True
         else:
             self.saved = False
-
 
 root = Tk()
 obj = Main(root)
