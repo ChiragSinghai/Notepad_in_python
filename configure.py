@@ -19,7 +19,7 @@ class configure():
         self.top.title('Fonts')
     #===============================================
         
-        self.exampletextfont=font.Font(family=self.defaultfont['family'],size=self.defaultfont['size'],weight=self.defaultfont['weight'])
+        self.exampletextfont=font.Font(family=self.defaultfont['family'],size=self.defaultfont['size'],weight=self.defaultfont['weight'],slant=self.defaultfont['slant'])
         #===============================================
         self.frame=Frame(self.top)
         self.frame.pack(fill=BOTH,expand=True)

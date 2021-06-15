@@ -5,6 +5,7 @@ from tkinter import font, ttk
 from fontsave import getFont
 from tester import Replace, Find
 from configure import configure
+import sys
 
 
 class Main:
@@ -27,8 +28,6 @@ class Main:
         self.geometry()
         self.master.protocol("WM_DELETE_WINDOW", self.onclose)
         self.saved_position()
-        self.loop()
-
     def geometry(self):
         height = int(self.master.winfo_screenheight() * 0.5)
         width = int(self.master.winfo_screenwidth() * 0.5)
@@ -84,8 +83,6 @@ class Main:
     def replace(self):
         obj = Replace(self.master,self.myText)
 
-    def loop(self):
-        self.master.mainloop()
 
     def design(self):
         # self.status_bar
@@ -115,6 +112,7 @@ class Main:
         self.myText.bind('<KeyRelease>', self.rowandcolumn)
         self.myText.bind('<KeyPress>', self.rowandcolumn)
         self.myText.bind('<ButtonPress>', self.position)
+
 
     def editmenu_post(self):
         try:
@@ -175,6 +173,7 @@ class Main:
             self.myText.mark_set('insert', 1.0)
             self.master.title(f'{file[0]}-Encrypted')
             self.saved_position()
+
 
     def open_file(self):
         self.save_check()
@@ -243,7 +242,7 @@ class Main:
                 os.rename(fr'{self.current_file_path}', fr'{save_filename}')
                 self.current_file_path = save_filename
                 self.current_file = os.path.splitext(os.path.basename(save_filename))
-                self.master.title(f'{current_file[0]}-Encrypted')
+                self.master.title(f'{self.current_file[0]}-Encrypted')
                 self.save_file()
         else:
             self.save_file()
@@ -367,6 +366,10 @@ class Main:
         else:
             self.saved = False
 
-root = Tk()
-obj = Main(root)
-print('this is the end')
+if __name__=='__main__':
+    root = Tk()
+    obj = Main(root)
+    if len(sys.argv) >= 2:
+        obj.open_file_internal(sys.argv[1])
+    root.mainloop()
+    print('this is the end')
