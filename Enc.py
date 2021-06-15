@@ -11,8 +11,8 @@ class Main:
     def __init__(self, master):
         self.fontandsize = getFont()
         self.default_font = font.Font(family=self.fontandsize[0], size=(self.fontandsize[1]),
-                                      weight='bold' if self.fontandsize[2] == '1' else 'normal')
-                                      #slant='italic' if self.fontandsize[3] == '1' else 'roman')
+                                      weight='bold' if self.fontandsize[2] == '1' else 'normal',
+                                      slant='italic' if self.fontandsize[3] == '1' else 'roman')
         self.current_file = None
         self.current_file_path = None
         self.saved = False

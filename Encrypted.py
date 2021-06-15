@@ -8,8 +8,8 @@ from configure import configure
 
 master = Tk()
 fontandsize = fontsave.getFont()
-default_font = font.Font(family=fontandsize[0], size=(fontandsize[1]), weight='bold' if fontandsize[2] == '1' else 'normal')
-                         #slant='italic' if fontandsize[3] == '1' else 'roman')
+default_font = font.Font(family=fontandsize[0], size=(fontandsize[1]), weight='bold' if fontandsize[2] == '1' else 'normal',
+                         slant='italic' if fontandsize[3] == '1' else 'roman')
 current_file = None
 current_file_path = None
 saved = False

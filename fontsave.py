@@ -1,11 +1,11 @@
 import os
-def setFont(fontname,size,font):
+def setFont(fontname,size,font,slant):
     if(os.path.isfile("folder/fontdata.txt")):
         file=open("folder/fontdata.txt",'w')
         file.write(fontname+"\n")
         file.write(str(size)+"\n")
         file.write(str(font)+'\n')
-        #file.write(str(slant)+'\n')
+        file.write(str(slant)+'\n')
         file.close()   
     else:
         os.mkdir("folder")
@@ -30,7 +30,7 @@ def getFont():
         file.write('Arial'+'\n')
         file.write('18'+'\n')
         file.write('0'+'\n')
-        #file.write('0'+'\n')
+        file.write('0'+'\n')
         file.close()
         var = getFont()
         return var
@@ -38,5 +38,5 @@ def getFont():
 
 if __name__ == '__main__':
     getFont()
-    setFont('Jokerman',14,1)
+    setFont('Jokerman',14,1,0)
     getFont()

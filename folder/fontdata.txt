@@ -1,3 +1,4 @@
-Jokerman
-18
-0
+Arial
+14
+1
+1

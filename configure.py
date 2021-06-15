@@ -5,7 +5,6 @@ import fontsave
 
 
 class configure():
-        
     def __init__(self,root,X,Y,defaultfont):
         self.top = Toplevel(root)
         self.defaultfont = defaultfont
@@ -17,6 +16,7 @@ class configure():
         self.top.transient(root)
         self.top.geometry(f"{self.width}x{self.height}+{X}+{Y}")
         self.top.resizable(False,False)
+        self.top.title('Fonts')
     #===============================================
         
         self.exampletextfont=font.Font(family=self.defaultfont['family'],size=self.defaultfont['size'],weight=self.defaultfont['weight'])
@@ -69,12 +69,15 @@ class configure():
         sizeoptions=[12,14,16,18,20,22,24,26,28,30,32,34]
         self.sizevar=IntVar()
         self.boldvar=IntVar()
+        self.italic = IntVar()
+        self.italic.set(0 if self.exampletextfont['slant'] == 'roman' else 1)
         self.boldvar.set(0 if self.exampletextfont['weight']=='normal' else 1)
         self.sizevar.set(self.exampletextfont['size'])
         self.sizemenu=OptionMenu(self.top,self.sizevar,*sizeoptions,command=self.sizeselected)
         self.sizemenu.place(relx=0.1,rely=0.75)
     
-
+        self.italic_checkbutton = Checkbutton(self.top,variable=self.italic,command=self.italic_click,text='Italic',font=("Arial",14))
+        self.italic_checkbutton.place(relx=0.2,rely=0.8)
         self.checkbutton=Checkbutton(self.top,variable=self.boldvar,command=self.boldclick
                                      ,text="Bold",font=("Arial",14))
         self.checkbutton.place(relx=0.2,rely=0.75)
@@ -88,6 +91,11 @@ class configure():
             
         else:
             self.exampletextfont.configure(weight="normal")
+    def italic_click(self):
+        if self.italic.get():
+            self.exampletextfont.configure(slant='italic')
+        else:
+            self.exampletextfont.configure(slant='roman')
 
     def sizeselected(self,event):
         selectedsize=self.sizevar.get()
@@ -97,13 +105,15 @@ class configure():
         selected=self.textlist.curselection()
         selectedfont=self.textlist.get(selected[0],last=None)
         self.exampletextfont.configure(family=selectedfont)
+
     def ok(self):
         selected=self.textlist.curselection()
         selectedfont=self.textlist.get(selected[0],last=None)
         bold=self.boldvar.get()
         selectedsize=self.sizevar.get()
-        self.defaultfont.configure(family=selectedfont,size=selectedsize,weight='bold' if bold==1 else 'normal')
-        fontsave.setFont(selectedfont,selectedsize,bold)
+        italic=self.italic.get()
+        self.defaultfont.configure(family=selectedfont,size=selectedsize,weight='bold' if bold else 'normal',slant='italic' if italic else 'roman')
+        fontsave.setFont(selectedfont,selectedsize,bold,italic)
         #return selectedfont,selectedsize,bold
 ##        print(self.defaultfont.actual())
 ##        print(self.exampletextfont.actual())
@@ -120,7 +130,8 @@ if __name__ == '__main__':
     fontandsize = fontsave.getFont()
 
     defaultfont = font.Font(family=fontandsize[0], size=(fontandsize[1]),
-                            weight='bold' if fontandsize[2] == '1' else 'normal')
+                            weight='bold' if fontandsize[2] == '1' else 'normal',
+                            slant='italic' if fontandsize[3] == '1' else 'roman')
 
     button = Button(master,text="press",command=lambda:configure(master,master.winfo_x(),master.winfo_y(),defaultfont))
     button.pack()
