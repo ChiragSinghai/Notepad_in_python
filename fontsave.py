@@ -1,22 +1,23 @@
 import os
+from filemanager import createFolder
 def setFont(fontname,size,font,slant):
-    if(os.path.isfile("folder/fontdata.txt")):
-        file=open("folder/fontdata.txt",'w')
+    if(os.path.isfile("C://Encrypted/fontdata.txt")):
+        file=open("C://Encrypted/fontdata.txt",'w')
         file.write(fontname+"\n")
         file.write(str(size)+"\n")
         file.write(str(font)+'\n')
         file.write(str(slant)+'\n')
         file.close()   
     else:
-        os.mkdir("folder")
-        file = open("folder/fontdata.txt",'x')
+        createFolder()
+        file = open("C://Encrypted/fontdata.txt",'x')
         file.close()
         setFont(fontname)
 
 
 def getFont():
-    if(os.path.isfile("folder/fontdata.txt")):        
-        file=open("folder/fontdata.txt",'r')
+    if(os.path.isfile("C://Encrypted/fontdata.txt")):
+        file=open("C://Encrypted/fontdata.txt",'r')
         fontandsize=file.readlines()
         i=0
         for line in fontandsize:
@@ -25,8 +26,8 @@ def getFont():
         file.close()
         return fontandsize
     else:
-        os.mkdir("folder")
-        file=open("folder/fontdata.txt",'x')
+        createFolder()
+        file = open("C://Encrypted/fontdata.txt",'x')
         file.write('Arial'+'\n')
         file.write('18'+'\n')
         file.write('0'+'\n')
