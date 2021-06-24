@@ -63,7 +63,7 @@ class Main:
         # self.editmenu.add_command(label="Paste")
 
         # self.optionmenu
-        self.optionmenu = Menu(self.menubar, tearoff=0)
+        self.optionmenu = Menu(self.menubar, tearoff=0,postcommand=self.optionmenu_post)
         self.menubar.add_cascade(label="Option", menu=self.optionmenu)
         self.optionmenu.add_checkbutton(label="Wrap", onvalue=1, offvalue=0, variable=self.wrap_value,
                                         command=self.wrap)
@@ -71,11 +71,16 @@ class Main:
         self.optionmenu.add_command(label='Font', image='', compound=LEFT,
                                     command=lambda: configure(self.master, self.master.winfo_x(),
                                                               self.master.winfo_y(),self.default_font))
-
         # Help
         self.helpmenu = Menu(self.menubar, tearoff=0, )
         self.menubar.add_cascade(label="Help", menu=self.helpmenu)
         self.helpmenu.add_command(label="About us", command='')
+
+    def optionmenu_post(self):
+        if self.myText.tag_ranges(Tkinter.SEL):
+            pass
+
+
 
     def find(self):
         obj = Find(self.master,self.myText)
