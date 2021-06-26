@@ -1,6 +1,6 @@
 from tkinter import *
 import time
-from tkinter import font, ttk
+from tkinter import font
 import fontsave
 
 

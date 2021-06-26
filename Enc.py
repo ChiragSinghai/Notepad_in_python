@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog, messagebox
 import os.path
-from tkinter import font, ttk
+from tkinter import font
 from fontsave import getFont
 from tester import Replace, Find
 from configure import configure
@@ -71,27 +71,20 @@ class Main:
         self.optionmenu.add_command(label='Font', image='', compound=LEFT,
                                     command=lambda: configure(self.master, self.master.winfo_x(),
                                                               self.master.winfo_y(),self.default_font))
-        try:
-            self.encryptmenu= Menu(self.menubar, tearoff=0)
-            self.optionmenu.add_cascade(label='Encrpyt',menu=self.encryptmenu)
-            self.encryptmenu.add_command(label='work',image='hey.png',compound=BOTTOM)
-        except Exception as e:
-            print(e)
+        self.optionmenu.add_command(label='Encrypt/Decrypt',command='')
         # Help
         self.helpmenu = Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label="Help", menu=self.helpmenu)
         self.helpmenu.add_command(label="About us", command='')
 
-    def optionmenu_post(self):
-        if self.myText.tag_ranges(SEL):
-            pass
 
 
 
-    def find(self):
+
+    def find(self,event=None):
         obj = Find(self.master,self.myText)
 
-    def replace(self):
+    def replace(self,event=None):
         obj = Replace(self.master,self.myText)
 
 
@@ -123,6 +116,8 @@ class Main:
         self.myText.bind('<KeyRelease>', self.rowandcolumn)
         self.myText.bind('<KeyPress>', self.rowandcolumn)
         self.myText.bind('<ButtonPress>', self.position)
+        self.myText.bind('<Control-f>',self.find)
+        self.myText.bind('<Control-r>',self.replace)
 
 
     def editmenu_post(self):
