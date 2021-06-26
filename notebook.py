@@ -3,7 +3,19 @@ from tkinter import *
 class NB:
     def __init__(self,root):
         self.NB = ttk.Notebook(root)
-        self.NB.pack(pady=6, expand=True)
+        self.NB.pack(expand=True)
+        style = ttk.Style()
+        style.theme_use('default')
+        style.configure("TNotebook",foreground='green')
+        style.layout("Tab",
+                     [('Notebook.tab', {'sticky': 'nswe', 'children':
+                         [('Notebook.padding', {'side': 'top', 'sticky': 'nswe', 'children':
+                         # [('Notebook.focus', {'side': 'top', 'sticky': 'nswe', 'children':
+                             [('Notebook.label', {'side': 'top', 'sticky': ''})],
+                                                # })],
+                                                })],
+                                        })]
+                     )
 
         # create frames
         frame1 = ttk.Frame(self.NB, width=400, height=280)
