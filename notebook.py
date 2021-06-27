@@ -2,7 +2,8 @@ from tkinter import ttk
 from tkinter import *
 import textencryption
 class NB:
-    def __init__(self,master):
+    def __init__(self,master,myText):
+        self.myText = myText
         self.master = master
         self.top = Toplevel(self.master)
         self.NB = ttk.Notebook(self.top,takefocus=True)
@@ -40,7 +41,7 @@ class NB:
         self.checkbox1.place(relx=0.1,rely=0.06)
         self.checkbox2 = Checkbutton(self.frame2,variable=self.check2,text='Decrypt selected Text',background='#e6e8eb',takefocus=False)
         self.checkbox2.place(relx=0.1,rely=0.06)
-        self.okbutton1 = Button(self.frame1,text='Generate key and Encrypt',command='',background='white',activebackground='#add8e6',relief='solid')
+        self.okbutton1 = Button(self.frame1,text='Generate key and Encrypt',command=self.callEncrypt,background='white',activebackground='#add8e6',relief='solid')
         self.okbutton1.place(relx=0.5,rely=0.06)
         self.imagelabel = Label(self.frame1)
         self.imagelabel.place(relx=0.1,rely=0.17,relwidth=0.8,relheight=0.8)
@@ -49,10 +50,19 @@ class NB:
         self.NB.add(self.frame2, text='Decrypt')
 
     def callEncrypt(self):
+        ranges = self.myText.tag_ranges(SEL)
+        if ranges and self.check1.get():
+            text = self.myText.get(*ranges)
+        else:
+            text = self.myText.get(1.0,END)
+            text=text[:-1]
+        
+
 if __name__=='__main__':
-    root = Tk()
-    def call():
-        obj = NB(root)
-    button = Button(root,text='press',command=call)
+    master = Tk()
+    text = Text(master)
+    text.pack(fil=BOTH)
+    text.insert('1.0', 'hy and why and Hy')
+    button = Button(master, text='press', command=lambda: NB(master, text))
     button.pack()
-    root.mainloop()
+    master.mainloop()

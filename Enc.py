@@ -6,6 +6,7 @@ from fontsave import getFont
 from tester import Replace, Find
 from configure import configure
 from filemanager import setsize,getsize
+from notebook import NB
 import sys
 
 
@@ -71,7 +72,7 @@ class Main:
         self.optionmenu.add_command(label='Font', image='', compound=LEFT,
                                     command=lambda: configure(self.master, self.master.winfo_x(),
                                                               self.master.winfo_y(),self.default_font))
-        self.optionmenu.add_command(label='Encrypt/Decrypt',command='')
+        self.optionmenu.add_command(label='Encrypt/Decrypt',command=lambda: NB(self.master,self.myText))
         # Help
         self.helpmenu = Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label="Help", menu=self.helpmenu)
