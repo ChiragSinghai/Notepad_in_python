@@ -1,6 +1,7 @@
-from tkinter import ttk
+from tkinter import ttk,filedialog
 from tkinter import *
 import textencryption
+import qrcode
 class NB:
     def __init__(self,master,myText):
         self.myText = myText
@@ -56,7 +57,16 @@ class NB:
         else:
             text = self.myText.get(1.0,END)
             text=text[:-1]
-        
+        text1, key = textencryption.encrypt(text)
+        img = qrcode.make(key)
+        savepath = filedialog.asksaveasfilename(title='Save File', defaultextension='.png',filetypes=(("Text file", "*.png"), ("Python file", "*.jpeg")))
+        print(type(img))
+        printt(img)
+        #self.imagelabel.configure(image=img)
+        #self.myText.delete(1.0,END)
+
+        #if text==textencryption.decrypt(text1,key):
+         #   print('hey')
 
 if __name__=='__main__':
     master = Tk()
