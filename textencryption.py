@@ -86,7 +86,6 @@ def decrypt(text,key):
 
 if __name__=='__main__':
     text,key = encrypt('hello world 45@12')
-
     print(decrypt(text,key))
     '''
     alphabet = string.ascii_letters + string.digits + string.punctuation

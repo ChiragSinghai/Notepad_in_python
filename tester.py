@@ -14,7 +14,7 @@ class Replace:
             self.find_list = []
             self.design()
             Replace.exist = True
-            self.replacemaster.mainloop()
+            #self.replacemaster.mainloop()
         else:
             pass
 
@@ -165,7 +165,7 @@ class Find:
             self.textobj = textobj
             self.design()
             Find.exist = True
-            self.findmaster.mainloop()
+            #self.findmaster.mainloop()
         else:
             pass
 
