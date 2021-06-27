@@ -8,7 +8,7 @@ class NB:
     def __init__(self,master,myText):
         self.myText = myText
         self.master = master
-        self.top = Toplevel(self.master)
+        self.top = Toplevel()
         self.NB = ttk.Notebook(self.top,takefocus=True)
         self.NB.pack(expand=True,pady=5)
         #self.NB.focus_set()
@@ -46,16 +46,16 @@ class NB:
         self.checkbox2.place(relx=0.1,rely=0.06)
         self.okbutton1 = Button(self.frame1,text='Generate key and Encrypt',command=self.callEncrypt,background='white',activebackground='#add8e6',relief='solid')
         self.okbutton1.place(relx=0.5,rely=0.06)
-        img = PhotoImage('P:/pythonfiles/yo.png')
+        img = PhotoImage("P://pythonfiles//yo.png")
         '''
         canvas=Canvas(self.frame1)
         canvas.place(relx=0.2,rely=0.2,relwidth=0.8,relheight=0.8)
         canvas.create_image(20, 20, anchor=NW, image=img)
         canvas.image = img
         '''
-        self.imagelabel = ttk.Label(self.frame1,image=(img),compound='image')
+        self.imagelabel = ttk.Label(self.frame1,image=(img))
         self.imagelabel.place(relx=0.2,rely=0.2,relwidth=0.8,relheight=0.8)
-        self.imagelabel['image']=(img)
+        self.imagelabel.config(image=img)
         # add frames to notebook
         self.NB.add(self.frame1, text='Encrypt')
         self.NB.add(self.frame2, text='Decrypt')
