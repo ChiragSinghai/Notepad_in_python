@@ -8,8 +8,6 @@ def getKey():
     for _ in range(keylength):
         shift = randint(1,5)
         key += str(shift)
-    XOR_value=randint(1,100)
-    key += str(XOR_value)
     #print(key)
     return key
 
@@ -22,12 +20,7 @@ def getdict(key):
     for i in range(1,n+1):
         shift = int(key[i])
         shifted = shifted[shift:] + shifted[:shift]
-    XOR_value = int(key[n+1:])
-    S = ''
-    for i in range(len(alphabet)):
-        char = shifted[i]
-        char = chr(ord(char) ^ XOR_value)
-        S += char
+    S=shifted
     encryptdict = {}
     #print(S)
 
@@ -44,7 +37,7 @@ def encrypt(text):
     #print(text)
     for i in range(len(text)):
         if text[i] in endict:
-            text[i]=endict[text[i]]
+            text[i] = endict[text[i]]
     #print(endict)
     return ''.join(text),key
 
@@ -60,12 +53,9 @@ def getDecryptDict(key):
         shift = int(key[i])
         shifted = shifted[shift:] + shifted[:shift]
 
-    XOR_value = int(key[m + 1:])
-    S = ''
-    for i in range(len(alphabet)):
-        char = shifted[i]
-        char = chr(ord(char) ^ XOR_value)
-        S += char
+
+    S = shifted
+
     decryptdict = {}
 
 
