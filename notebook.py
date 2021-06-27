@@ -1,6 +1,8 @@
 from tkinter import ttk,filedialog
 from tkinter import *
 import textencryption
+from PIL import ImageTk,Image
+from io import StringIO
 import qrcode
 class NB:
     def __init__(self,master,myText):
@@ -44,8 +46,16 @@ class NB:
         self.checkbox2.place(relx=0.1,rely=0.06)
         self.okbutton1 = Button(self.frame1,text='Generate key and Encrypt',command=self.callEncrypt,background='white',activebackground='#add8e6',relief='solid')
         self.okbutton1.place(relx=0.5,rely=0.06)
-        self.imagelabel = Label(self.frame1)
-        self.imagelabel.place(relx=0.1,rely=0.17,relwidth=0.8,relheight=0.8)
+        img = PhotoImage('P:/pythonfiles/yo.png')
+        '''
+        canvas=Canvas(self.frame1)
+        canvas.place(relx=0.2,rely=0.2,relwidth=0.8,relheight=0.8)
+        canvas.create_image(20, 20, anchor=NW, image=img)
+        canvas.image = img
+        '''
+        self.imagelabel = ttk.Label(self.frame1,image=(img),compound='image')
+        self.imagelabel.place(relx=0.2,rely=0.2,relwidth=0.8,relheight=0.8)
+        self.imagelabel['image']=(img)
         # add frames to notebook
         self.NB.add(self.frame1, text='Encrypt')
         self.NB.add(self.frame2, text='Decrypt')
@@ -60,9 +70,10 @@ class NB:
         text1, key = textencryption.encrypt(text)
         img = qrcode.make(key)
         savepath = filedialog.asksaveasfilename(title='Save File', defaultextension='.png',filetypes=(("Text file", "*.png"), ("Python file", "*.jpeg")))
-        print(type(img))
-        printt(img)
-        #self.imagelabel.configure(image=img)
+        print(savepath)
+        img.save(savepath)
+        img = ImageTk.PhotoImage(file=savepath)
+        self.imagelabel.config(image=img)
         #self.myText.delete(1.0,END)
 
         #if text==textencryption.decrypt(text1,key):
