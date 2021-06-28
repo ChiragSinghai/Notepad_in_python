@@ -97,7 +97,6 @@ class NB:
         else:
             text = self.myText.get(1.0,END)
             text=text.strip()
-        print(text)
         text1, key = textencryption.encrypt(text)
         qr = qrcode.QRCode(version=1,error_correction=qrcode.constants.ERROR_CORRECT_L,box_size=8,
             border=4,)
