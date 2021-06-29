@@ -24,10 +24,11 @@ def getdict(key):
         shifted = shifted[shift:] + shifted[:shift]
 
     encryptdict = {}
-
+    XOR_value = int(key[n + 1:])
+    #print(XOR_value)
     for k,v in zip(alphabet,shifted):
         encryptdict[k] = v
-    return encryptdict,int(key[n+1:])
+    return encryptdict,XOR_value
 
 
 
@@ -35,24 +36,27 @@ def encrypt(text):
     key = getKey()
     endict,XOR_value = getdict(key)
     text = list(text)
-    print(text)
-    print(endict)
+    #print(text)
+    #print(endict)
     for i in range(len(text)):
         if text[i] in endict:
             text[i] = endict[text[i]]
-    print(endict)
+    #print(endict)
     text = ''.join(text)
     text = XOR(XOR_value, text)
-    print(text)
+    #print(text)
     return text,key
 
 def getDecryptDict(key):
+    m = int(key[0])
+    XOR_value = int(key[m + 1:])
+    #print(XOR_value)
     alphabet = string.ascii_letters + string.digits + string.punctuation +string.whitespace
     #alphabet = alphabet.replace(" ", "")
     #print(len(alphabet))
     shifted = alphabet
 
-    m = int(key[0])
+
     for i in range(1, m + 1):
         shift = int(key[i])
         shifted = shifted[shift:] + shifted[:shift]
@@ -63,7 +67,7 @@ def getDecryptDict(key):
     for k, v in zip(shifted,alphabet):
         decryptdict[k] = v
     print(decryptdict)
-    return decryptdict,int(key[m+1:])
+    return decryptdict,XOR_value
 
 def XOR(XOR_value,text):
     S = ''
@@ -74,13 +78,14 @@ def XOR(XOR_value,text):
 
 def decrypt(text,key):
     dedict,XOR_value = getDecryptDict(key)
+    text = XOR(XOR_value, text)
     text = list(text)
     #print(text)
     for i in range(len(text)):
         if text[i] in dedict:
             text[i] = dedict[text[i]]
     text = ''.join(text)
-    text = XOR(XOR_value, text)
+
     return text
 
 if __name__=='__main__':
