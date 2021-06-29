@@ -63,7 +63,7 @@ class NB:
         self.decrypt_button.place(relx=0.38,rely=0.8,relwidth=0.24)
 
     def open_file(self):
-        self.savepath = filedialog.askopenfilename(title='Save File', defaultextension='.png',
+        self.savepath = filedialog.askopenfilename(title='Open file', defaultextension='.png',
                                                 filetypes=(("PNG file", "*.png"), ("JPEG file", "*.jpeg"),("All files",'*.*')))
         if self.savepath:
             self.qr_button['text'] = self.savepath
@@ -87,7 +87,7 @@ class NB:
         self.clipimage = PhotoImage(file='C://Encrypted//clipboard.png')
         self.copybutton = Button(self.frame1,image=self.clipimage,compound='center',command=self.copy)
         self.copybutton.place(relx=0.45,rely=0.89)
-        self.saveQR = Button(self.frame1,text='Save QR',background='white',activebackground='#add8e6',relief='solid',padx=10)
+        self.saveQR = Button(self.frame1,text='Save QR',background='white',command=self.save_QR,activebackground='#add8e6',relief='solid',padx=10)
         self.saveQR.place(relx=0.7,rely=0.9)
 
     def callEncrypt(self):
@@ -117,6 +117,19 @@ class NB:
         self.keylabel1['text'] = key
         #if text==textencryption.decrypt(text1,key):
          #   print('hey')
+
+    def save_QR(self):
+        save_filename = filedialog.asksaveasfilename(title='Save File', defaultextension='.png',
+                                                     filetypes=(("PNG file", "*.png"), ("JPEG file", "*.jpeg"),("All files",'*.*')))
+        if save_filename:
+            qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=8,
+                               border=4, )
+            qr.add_data(self.keylabel1['text'])
+            qr.make(fit=True)
+            img=qr.make_image()
+            img.save(save_filename)
+
+
 
     def copy(self):
         if self.keylabel1['text']:
