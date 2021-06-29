@@ -97,25 +97,26 @@ class NB:
         else:
             text = self.myText.get(1.0,END)
             text=text.strip()
-        text1, key = textencryption.encrypt(text)
-        qr = qrcode.QRCode(version=1,error_correction=qrcode.constants.ERROR_CORRECT_L,box_size=8,
-            border=4,)
-        qr.add_data(key)
-        qr.make(fit=True)
-        self.img = qr.make_image()
-        #self.save('hey.png')
-        savepath = 'C://Encrypted//hey.png'
-        self.img.save(savepath)
-        self.img = PhotoImage(file=savepath)
-        self.imagelabel.config(image=self.img)
-        if self.check1.get() and ranges:
-            self.myText.delete(*ranges)
-            self.myText.insert(ranges[0],text1)
-        else:
-            self.myText.delete(1.0,END)
-            self.myText.insert(1.0,text1)
-        self.keylabel1['text'] = key
-        #if text==textencryption.decrypt(text1,key):
+        if text:
+            text1, key = textencryption.encrypt(text)
+            qr = qrcode.QRCode(version=1,error_correction=qrcode.constants.ERROR_CORRECT_L,box_size=8,
+                border=4,)
+            qr.add_data(key)
+            qr.make(fit=True)
+            self.img = qr.make_image()
+            #self.save('hey.png')
+            savepath = 'C://Encrypted//hey.png'
+            self.img.save(savepath)
+            self.img = PhotoImage(file=savepath)
+            self.imagelabel.config(image=self.img)
+            if self.check1.get() and ranges:
+                self.myText.delete(*ranges)
+                self.myText.insert(ranges[0],text1)
+            else:
+                self.myText.delete(1.0,END)
+                self.myText.insert(1.0,text1)
+            self.keylabel1['text'] = key
+            #if text==textencryption.decrypt(text1,key):
          #   print('hey')
 
     def save_QR(self):
