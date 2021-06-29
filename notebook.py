@@ -116,6 +116,7 @@ class NB:
                 self.myText.delete(1.0,END)
                 self.myText.insert(1.0,text1)
             self.keylabel1['text'] = key
+            self.okbutton1['state'] = 'disabled'
             #if text==textencryption.decrypt(text1,key):
          #   print('hey')
 
@@ -145,6 +146,7 @@ class NB:
             decrypted_text = textencryption.decrypt(text,self.var.get())
             self.myText.delete(1.0,END)
             self.myText.insert(1.0,decrypted_text)
+            self.okbutton1['state'] = 'normal'
         if self.savepath:
             print('true')
 
