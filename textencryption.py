@@ -9,6 +9,8 @@ def getKey():
         shift = randint(1,5)
         key += str(shift)
     #print(key)
+    XOR_value=randint(1,31)
+    key+=str(XOR_value)
     return key
 
 def getdict(key):
@@ -20,11 +22,10 @@ def getdict(key):
     for i in range(1,n+1):
         shift = int(key[i])
         shifted = shifted[shift:] + shifted[:shift]
-    S=shifted
-    encryptdict = {}
-    #print(S)
 
-    for k,v in zip(alphabet,S):
+    encryptdict = {}
+
+    for k,v in zip(alphabet,shifted):
         encryptdict[k] = v
     return encryptdict
 
@@ -38,7 +39,7 @@ def encrypt(text):
     for i in range(len(text)):
         if text[i] in endict:
             text[i] = endict[text[i]]
-    #print(endict)
+    print(endict)
     return ''.join(text),key
 
 
@@ -53,16 +54,20 @@ def getDecryptDict(key):
         shift = int(key[i])
         shifted = shifted[shift:] + shifted[:shift]
 
-
-    S = shifted
-
     decryptdict = {}
 
 
-    for k, v in zip(S,alphabet):
+    for k, v in zip(shifted,alphabet):
         decryptdict[k] = v
-    #print(decryptdict)
+    print(decryptdict)
     return decryptdict
+
+def XOR(XOR_value,text):
+    S = ''
+    for i in range(len(text)):
+        S += chr(ord(text[i]) ^ XOR_value)
+    return S
+
 
 def decrypt(text,key):
     dedict = getDecryptDict(key)
@@ -75,7 +80,12 @@ def decrypt(text,key):
     return ''.join(text)
 
 if __name__=='__main__':
-    text,key = encrypt('hello world 45@12')
+    '''
+    with open('P:\\College\\position_salaries.csv') as f:
+        txt = f.read()
+    print(txt)
+    '''
+    text,key = encrypt('hey bitch this is encoding')
     print(decrypt(text,key))
     '''
     alphabet = string.ascii_letters + string.digits + string.punctuation
