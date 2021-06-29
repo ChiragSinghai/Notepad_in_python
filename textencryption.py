@@ -27,21 +27,24 @@ def getdict(key):
 
     for k,v in zip(alphabet,shifted):
         encryptdict[k] = v
-    return encryptdict
+    return encryptdict,int(key[n+1:])
 
 
 
 def encrypt(text):
     key = getKey()
-    endict = getdict(key)
+    endict,XOR_value = getdict(key)
     text = list(text)
-    #print(text)
+    print(text)
+    print(endict)
     for i in range(len(text)):
         if text[i] in endict:
             text[i] = endict[text[i]]
     print(endict)
-    return ''.join(text),key
-
+    text = ''.join(text)
+    text = XOR(XOR_value, text)
+    print(text)
+    return text,key
 
 def getDecryptDict(key):
     alphabet = string.ascii_letters + string.digits + string.punctuation +string.whitespace
@@ -60,7 +63,7 @@ def getDecryptDict(key):
     for k, v in zip(shifted,alphabet):
         decryptdict[k] = v
     print(decryptdict)
-    return decryptdict
+    return decryptdict,int(key[m+1:])
 
 def XOR(XOR_value,text):
     S = ''
@@ -70,14 +73,15 @@ def XOR(XOR_value,text):
 
 
 def decrypt(text,key):
-    dedict = getDecryptDict(key)
+    dedict,XOR_value = getDecryptDict(key)
     text = list(text)
     #print(text)
     for i in range(len(text)):
         if text[i] in dedict:
             text[i] = dedict[text[i]]
-    #print(endict)
-    return ''.join(text)
+    text = ''.join(text)
+    text = XOR(XOR_value, text)
+    return text
 
 if __name__=='__main__':
     '''
