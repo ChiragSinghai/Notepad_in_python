@@ -1,38 +1,47 @@
 from tkinter import ttk,filedialog
 from tkinter import *
 import textencryption
-from PIL import ImageTk,Image
+from filemanager import path
 import qrcode
 class NB:
+    exist = False
     def __init__(self,master,myText):
-        self.myText = myText
-        self.master = master
-        self.top = Toplevel()
-        self.top.title('Encrypt/Decrypt')
-        self.top.geometry(f"400x370+{self.master.winfo_x()}+{self.master.winfo_y()}")
-        self.NB = ttk.Notebook(self.top,takefocus=True)
-        self.NB.pack(expand=True,pady=5)
-        #self.NB.focus_set()
-        style = ttk.Style()
-        style.theme_use('default')
-        style.configure("TNotebook", borderwidth=2,background='#e6e8eb')
-        style.configure("TNotebook.Tab",backgorund='#e6e8eb',foreground='black', lightcolor='#DF7401', borderwidth=2,padding=[3,3],relief='groove',font=('helvetica',12))
-        style.configure("TFrame", background='#e6e8eb',borderwidth=2,relief='groove')
-        style.map('TNotebook.Tab',background=[('selected','white'),('active','#add8e6')],expand=[("selected", [1,1,1,0])],
-                  padding=[('selected',[5,5])],
-                  )
-        #style.configure('TButton',font=('arial',12,'bold'))
-        style.layout("Tab",
-                     [('Notebook.tab', {'sticky': 'nswe', 'children':
-                         [('Notebook.padding', {'side': 'top', 'sticky': 'nswe', 'children':
-                         # [('Notebook.focus', {'side': 'top', 'sticky': 'nswe', 'children':
-                             [('Notebook.label', {'side': 'top', 'sticky': ''})],
-                                            })],
-                                        })]
-                     )
-        #print(style.element_options('TNotebook.tab'))
-        # create frames
-        self.design()
+        if not NB.exist:
+            self.myText = myText
+            self.master = master
+            self.top = Toplevel()
+            self.top.title('Encrypt/Decrypt')
+            self.top.geometry(f"400x370+{self.master.winfo_x()}+{self.master.winfo_y()}")
+            self.NB = ttk.Notebook(self.top,takefocus=True)
+            self.NB.pack(expand=True,pady=5)
+            #self.NB.focus_set()
+            style = ttk.Style()
+            style.theme_use('default')
+            style.configure("TNotebook", borderwidth=2,background='#e6e8eb')
+            style.configure("TNotebook.Tab",backgorund='#e6e8eb',foreground='black', lightcolor='#DF7401', borderwidth=2,padding=[3,3],relief='groove',font=('helvetica',12))
+            style.configure("TFrame", background='#e6e8eb',borderwidth=2,relief='groove')
+            style.map('TNotebook.Tab',background=[('selected','white'),('active','#add8e6')],expand=[("selected", [1,1,1,0])],
+                      padding=[('selected',[5,5])],
+                      )
+            #style.configure('TButton',font=('arial',12,'bold'))
+            style.layout("Tab",
+                         [('Notebook.tab', {'sticky': 'nswe', 'children':
+                             [('Notebook.padding', {'side': 'top', 'sticky': 'nswe', 'children':
+                             # [('Notebook.focus', {'side': 'top', 'sticky': 'nswe', 'children':
+                                 [('Notebook.label', {'side': 'top', 'sticky': ''})],
+                                                })],
+                                            })]
+                         )
+            #print(style.element_options('TNotebook.tab'))
+            # create frames
+            self.top.protocol("WM_DELETE_WINDOW", self.onclose)
+            NB.exist = True
+            self.design()
+
+    def onclose(self):
+        NB.exist = False
+        self.top.destroy()
+
     def design(self):
         self.frame1 = ttk.Frame(self.NB, width=400, height=370)
         self.frame2 = ttk.Frame(self.NB, width=400, height=370)
@@ -84,7 +93,7 @@ class NB:
         self.keylabel.place(relx=0.05,rely=0.9)
         self.keylabel1 = Label(self.frame1,text='',font=('arial',12,'bold'))
         self.keylabel1.place(relx=0.2,rely=0.9)
-        self.clipimage = PhotoImage(file='C://Encrypted//clipboard.png')
+        self.clipimage = PhotoImage(file=path+'clipboard.png')
         self.copybutton = Button(self.frame1,image=self.clipimage,compound='center',command=self.copy)
         self.copybutton.place(relx=0.45,rely=0.89)
         self.saveQR = Button(self.frame1,text='Save QR',background='white',command=self.save_QR,activebackground='#add8e6',relief='solid',padx=10)
@@ -105,7 +114,7 @@ class NB:
             qr.make(fit=True)
             self.img = qr.make_image()
             #self.save('hey.png')
-            savepath = 'C://Encrypted//hey.png'
+            savepath = path+"hey.png"
             self.img.save(savepath)
             self.img = PhotoImage(file=savepath)
             self.imagelabel.config(image=self.img)
@@ -117,8 +126,7 @@ class NB:
                 self.myText.insert(1.0,text1)
             self.keylabel1['text'] = key
             self.okbutton1['state'] = 'disabled'
-            #if text==textencryption.decrypt(text1,key):
-         #   print('hey')
+
 
     def save_QR(self):
         save_filename = filedialog.asksaveasfilename(title='Save File', defaultextension='.png',
@@ -128,7 +136,7 @@ class NB:
                                border=4, )
             qr.add_data(self.keylabel1['text'])
             qr.make(fit=True)
-            img=qr.make_image()
+            img = qr.make_image()
             img.save(save_filename)
 
 

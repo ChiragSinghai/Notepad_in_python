@@ -1,34 +1,38 @@
 import os
 from tkinter import *
+path = 'P://Encrypted//'
 def createFolder():
-    if os.path.isdir('C://Encrypted/'):
+    if os.path.isdir(path):
         return
     else:
-        os.mkdir('C://Encrypted')
+        os.mkdir('P://Encrypted')
 def getsize(master):
     createFolder()
-    if not(os.path.isfile('C://Encrypted//size.txt')):
-        file = open('C://Encrypted//size.txt','w')
+    print(path)
+    if not(os.path.isfile(path+'size.txt')):
+        file = open(path+'size.txt','w')
         file.write(str(master.winfo_screenheight()//2)+'\n')
         file.write(str(master.winfo_screenwidth()//2)+'\n')
         file.write('10'+'\n')
         file.write('10'+'\n')
         file.close()
-    file = open('C://Encrypted//size.txt','r')
+    filename = path+'size.txt'
+    file = open(filename,'r')
     height,width,X,Y = map(int,file.readlines())
     file.close()
     return height,width,X,Y
 
 def setsize(master):
     createFolder()
-    file = open('C://Encrypted//size.txt', 'w')
+    filename = path + 'size.txt'
+    file = open(filename, 'w')
     file.write(str(master.winfo_height())+'\n')
     file.write(str(master.winfo_width())+'\n')
     file.write(str(master.winfo_x())+'\n')
     file.write(str(master.winfo_y())+'\n')
     file.close()
-    if not(os.path.isfile('C://Encrypted//size.txt')):
-        file = open('C://Encrypted//size.txt','x')
+    if not(os.path.isfile(filename)):
+        file = open(filename,'x')
         file.write(str(master.winfo_screenheight())+'\n')
         file.write(str(master.winfo_screenwidth())+'\n')
         file.close()
