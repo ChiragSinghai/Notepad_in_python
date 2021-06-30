@@ -32,8 +32,9 @@ def getdict(key):
 
 
 
-def encrypt(text):
-    key = getKey()
+def encrypt(text,ranges=False):
+    if not ranges:
+        key = getKey()
     endict,XOR_value = getdict(key)
     text = list(text)
     #print(text)

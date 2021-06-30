@@ -103,11 +103,15 @@ class NB:
         ranges = self.myText.tag_ranges(SEL)
         if ranges and self.check1.get():
             text = self.myText.get(*ranges)
+            print(*ranges)
         else:
             text = self.myText.get(1.0,END)
             text=text.strip()
         if text:
-            text1, key = textencryption.encrypt(text)
+            if not self.check1.get():
+                text1, key = textencryption.encrypt(text)
+            else:
+                text1,key = textencryption.encrypt(text,ranges)
             qr = qrcode.QRCode(version=1,error_correction=qrcode.constants.ERROR_CORRECT_L,box_size=8,
                 border=4,)
             qr.add_data(key)
