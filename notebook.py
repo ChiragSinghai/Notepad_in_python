@@ -91,11 +91,9 @@ class NB:
         self.imagelabel.place(relx=0.1,rely=0.15,relwidth=0.8,relheight=0.7)
         self.keylabel = Label(self.frame1,text='Key is',font=('arial',12,'bold'))
         self.keylabel.place(relx=0.05,rely=0.9)
-        self.keylabel1 = Label(self.frame1,text='',font=('arial',12,'bold'))
-        self.keylabel1.place(relx=0.2,rely=0.9)
         self.clipimage = PhotoImage(file=path+'clipboard.png')
-        self.copybutton = Button(self.frame1,image=self.clipimage,compound='center',command=self.copy)
-        self.copybutton.place(relx=0.45,rely=0.89)
+        self.copybutton = Button(self.frame1,text='',image=self.clipimage,compound='right',command=self.copy)
+        self.copybutton.place(relx=0.2,rely=0.89)
         self.saveQR = Button(self.frame1,text='Save QR',background='white',command=self.save_QR,activebackground='#add8e6',relief='solid',padx=10)
         self.saveQR.place(relx=0.7,rely=0.9)
 
@@ -103,10 +101,11 @@ class NB:
         ranges = self.myText.tag_ranges(SEL)
         if ranges and self.check1.get():
             text = self.myText.get(*ranges)
-            print(*ranges)
+
         else:
             text = self.myText.get(1.0,END)
             text=text.strip()
+        print(text)
         if text:
             if not self.check1.get():
                 text1, key = textencryption.encrypt(text)
@@ -128,7 +127,7 @@ class NB:
             else:
                 self.myText.delete(1.0,END)
                 self.myText.insert(1.0,text1)
-            self.keylabel1['text'] = key
+            self.copybutton['text'] = key
             self.okbutton1['state'] = 'disabled'
 
 
@@ -138,7 +137,7 @@ class NB:
         if save_filename:
             qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=8,
                                border=4, )
-            qr.add_data(self.keylabel1['text'])
+            qr.add_data(self.copybutton['text'])
             qr.make(fit=True)
             img = qr.make_image()
             img.save(save_filename)
@@ -146,19 +145,32 @@ class NB:
 
 
     def copy(self):
-        if self.keylabel1['text']:
+        if self.copybutton['text']:
             self.master.clipboard_clear()
-            self.master.clipboard_append(self.keylabel1['text'])
+            self.master.clipboard_append(self.copybutton['text'])
             self.master.update()
 
     def callDecrypt(self):
-        if self.var.get().isdigit():
-            text = self.myText.get(1.0,END)
-            text=text.strip()
-            decrypted_text = textencryption.decrypt(text,self.var.get())
-            self.myText.delete(1.0,END)
-            self.myText.insert(1.0,decrypted_text)
-            self.okbutton1['state'] = 'normal'
+        if self.var.get():
+            if self.var.get()[0]:
+                key,start,end = self.var.get().split(' ')
+                start = float(start)
+                end = float(end)
+                text = self.myText.get(start,end)
+
+            else:
+                text = self.myText.get(1.0,END)
+                text=text.strip()
+            if str(key).isdigit():
+                decrypted_text = textencryption.decrypt(text,key)
+                print(decrypted_text)
+                if self.var.get()[0]:
+                    self.myText.delete(start,end)
+                    self.myText.insert(start,decrypted_text)
+                else:
+                    self.myText.delete(1.0,END)
+                    self.myText.insert(1.0,decrypted_text)
+                self.okbutton1['state'] = 'normal'
         if self.savepath:
             print('true')
 

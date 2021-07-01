@@ -1,42 +1,57 @@
 import random
 import string
-from random import randint,shuffle
-def getKey():
+from random import randint
+def getKey(*ranges):
     key = ''
     keylength = randint(2,5)
-    key+=str(keylength)
+    key += str(keylength)
     for _ in range(keylength):
         shift = randint(1,5)
         key += str(shift)
     #print(key)
-    XOR_value=randint(1,31)
-    key+=str(XOR_value)
+    XOR_value = randint(1,31)
+    key += str(XOR_value)
+    if ranges:
+        start,end = ranges[0],ranges[1]
+        key='1'+key+' '+str(start)+' '+str(end)
+    else:
+        key+='0'+key
+    print(key)
     return key
+
 
 def getdict(key):
     alphabet = string.ascii_letters + string.digits + string.punctuation + string.whitespace
     #alphabet = alphabet.replace(" ","")
     #print(len(alphabet))
+    if key[0]:
+        key,start,end = key.split(' ')
+    print(key)
     shifted = alphabet
-    n = int(key[0])
-    for i in range(1,n+1):
+    n = int(key[1])
+    for i in range(2,n+2):
         shift = int(key[i])
         shifted = shifted[shift:] + shifted[:shift]
 
     encryptdict = {}
-    XOR_value = int(key[n + 1:])
+    XOR_value = int(key[n + 2:])
     #print(XOR_value)
     for k,v in zip(alphabet,shifted):
-        encryptdict[k] = v
+        if k=='\n' or v=='\n':
+            encryptdict[k] = k
+        else:
+            encryptdict[k] = v
     return encryptdict,XOR_value
-
 
 
 def encrypt(text,ranges=False):
     if not ranges:
         key = getKey()
+    else:
+        key = getKey(*ranges)
     endict,XOR_value = getdict(key)
     text = list(text)
+    print(XOR_value)
     #print(text)
     #print(endict)
     for i in range(len(text)):
@@ -49,16 +64,17 @@ def encrypt(text,ranges=False):
     return text,key
 
 def getDecryptDict(key):
-    m = int(key[0])
-    XOR_value = int(key[m + 1:])
-    #print(XOR_value)
+    print(key)
+    m = int(key[1])
+    XOR_value = int(key[m + 2:])
+    print(XOR_value)
     alphabet = string.ascii_letters + string.digits + string.punctuation +string.whitespace
     #alphabet = alphabet.replace(" ", "")
     #print(len(alphabet))
     shifted = alphabet
 
 
-    for i in range(1, m + 1):
+    for i in range(2, m + 2):
         shift = int(key[i])
         shifted = shifted[shift:] + shifted[:shift]
 
@@ -66,8 +82,10 @@ def getDecryptDict(key):
 
 
     for k, v in zip(shifted,alphabet):
-        decryptdict[k] = v
-    print(decryptdict)
+        if k == '\n' or v == '\n':
+            decryptdict[k] = k
+        else:
+            decryptdict[k] = v
     return decryptdict,XOR_value
 
 def XOR(XOR_value,text):
@@ -82,6 +100,7 @@ def decrypt(text,key):
     text = XOR(XOR_value, text)
     text = list(text)
     #print(text)
+    print(dedict)
     for i in range(len(text)):
         if text[i] in dedict:
             text[i] = dedict[text[i]]
