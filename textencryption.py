@@ -11,11 +11,12 @@ def getKey(*ranges):
     #print(key)
     XOR_value = randint(1,31)
     key += str(XOR_value)
-    if ranges:
+    if len(ranges)!=0:
         start,end = ranges[0],ranges[1]
         key='1'+key+' '+str(start)+' '+str(end)
     else:
-        key+='0'+key
+        key='0'+key
+    print(key)
     print(key)
     return key
 
@@ -24,7 +25,8 @@ def getdict(key):
     alphabet = string.ascii_letters + string.digits + string.punctuation + string.whitespace
     #alphabet = alphabet.replace(" ","")
     #print(len(alphabet))
-    if key[0]:
+    print(bool(key[0]))
+    if bool(key[0]):
         key,start,end = key.split(' ')
     print(key)
     shifted = alphabet
