@@ -11,7 +11,7 @@ def getKey(*ranges):
     #print(key)
     XOR_value = randint(1,31)
     key += str(XOR_value)
-    if len(ranges)!=0:
+    if len(ranges) != 0:
         start,end = ranges[0],ranges[1]
         key='1'+key+' '+str(start)+' '+str(end)
     else:
@@ -26,7 +26,7 @@ def getdict(key):
     #alphabet = alphabet.replace(" ","")
     #print(len(alphabet))
     print(bool(key[0]))
-    if bool(key[0]):
+    if bool(int(key[0])):
         key,start,end = key.split(' ')
     print(key)
     shifted = alphabet
@@ -66,7 +66,7 @@ def encrypt(text,ranges=False):
     return text,key
 
 def getDecryptDict(key):
-    print(key)
+
     m = int(key[1])
     XOR_value = int(key[m + 2:])
     print(XOR_value)
@@ -93,7 +93,12 @@ def getDecryptDict(key):
 def XOR(XOR_value,text):
     S = ''
     for i in range(len(text)):
-        S += chr(ord(text[i]) ^ XOR_value)
+        if text[i]=='\n':
+            print('hey')
+            S+=text[i]
+        else:
+            S += chr(ord(text[i]) ^ XOR_value)
+    print(S)
     return S
 
 
@@ -106,6 +111,7 @@ def decrypt(text,key):
     for i in range(len(text)):
         if text[i] in dedict:
             text[i] = dedict[text[i]]
+    print(text)
     text = ''.join(text)
 
     return text
