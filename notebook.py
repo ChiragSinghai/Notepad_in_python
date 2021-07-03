@@ -152,19 +152,20 @@ class NB:
 
     def callDecrypt(self):
         if self.var.get():
-            if self.var.get()[0]:
+            if int(self.var.get()[0]):
                 key,start,end = self.var.get().split(' ')
                 start = float(start)
                 end = float(end)
                 text = self.myText.get(start,end)
 
             else:
+                key = self.var.get()
                 text = self.myText.get(1.0,END)
                 text=text.strip()
             if str(key).isdigit():
                 decrypted_text = textencryption.decrypt(text,key)
                 print(decrypted_text)
-                if self.var.get()[0]:
+                if int(self.var.get()[0]):
                     self.myText.delete(start,end)
                     self.myText.insert(start,decrypted_text)
                 else:
