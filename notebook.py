@@ -2,6 +2,7 @@ from tkinter import ttk,filedialog
 from tkinter import *
 import textencryption
 from filemanager import path
+from cv2 import QRCodeDetector,imread
 import qrcode
 class NB:
     exist = False
@@ -13,6 +14,7 @@ class NB:
             self.top.title('Encrypt/Decrypt')
             self.top.geometry(f"400x370+{self.master.winfo_x()}+{self.master.winfo_y()}")
             self.NB = ttk.Notebook(self.top,takefocus=True)
+            self.top.resizable(False,False)
             self.NB.pack(expand=True,pady=5)
             #self.NB.focus_set()
             style = ttk.Style()
@@ -76,7 +78,7 @@ class NB:
                                                 filetypes=(("PNG file", "*.png"), ("JPEG file", "*.jpeg"),("All files",'*.*')))
         if self.savepath:
             self.qr_button['text'] = self.savepath
-
+        self.top.focus_set()
 
     def setupFrame1(self):
         #adding checkboxes
@@ -141,8 +143,8 @@ class NB:
             qr.make(fit=True)
             img = qr.make_image()
             img.save(save_filename)
-
-
+        #self.top.tkraise(self.master)
+        self.top.focus_set()
 
     def copy(self):
         if self.copybutton['text']:
@@ -173,7 +175,15 @@ class NB:
                     self.myText.insert(1.0,decrypted_text)
                 self.okbutton1['state'] = 'normal'
         if self.savepath:
-            print('true')
+            img = imread(self.savepath)
+            detector = QRCodeDetector()
+            data, bbox, straight_qrcode = detector.detectAndDecode(img)
+            print(data)
+            print(bbox)
+            print(straight_qrcode)
+            if bbox is not None and data != '':
+                print(f"QRCode data:\n{data}")
+
 
 if __name__=='__main__':
     master = Tk()

@@ -2,6 +2,7 @@
 from string import ascii_letters,digits,whitespace,punctuation
 from random import randint
 
+
 def getKey(*ranges):
     key = ''
     keylength = randint(2,5)
@@ -17,8 +18,8 @@ def getKey(*ranges):
         key='1'+key+' '+str(start)+' '+str(end)
     else:
         key='0'+key
-    print(key)
-    print(key)
+    #print(key)
+    #print(key)
     return key
 
 
@@ -26,10 +27,10 @@ def getdict(key):
     alphabet = ascii_letters + digits + punctuation + whitespace
     #alphabet = alphabet.replace(" ","")
     #print(len(alphabet))
-    print(bool(key[0]))
+    #print(bool(key[0]))
     if bool(int(key[0])):
         key,start,end = key.split(' ')
-    print(key)
+    #print(key)
     shifted = alphabet
     n = int(key[1])
     for i in range(2,n+2):
@@ -54,7 +55,7 @@ def encrypt(text,ranges=False):
         key = getKey(*ranges)
     endict,XOR_value = getdict(key)
     text = list(text)
-    print(XOR_value)
+    #print(XOR_value)
     #print(text)
     #print(endict)
     for i in range(len(text)):
@@ -70,7 +71,7 @@ def getDecryptDict(key):
 
     m = int(key[1])
     XOR_value = int(key[m + 2:])
-    print(XOR_value)
+    #print(XOR_value)
     alphabet = ascii_letters + digits + punctuation +whitespace
     #alphabet = alphabet.replace(" ", "")
     #print(len(alphabet))
@@ -95,7 +96,7 @@ def XOR(XOR_value,text):
     S = ''
     for i in range(len(text)):
         if text[i]=='\n':
-            print('hey')
+            #print('hey')
             S+=text[i]
         else:
             char = chr(ord(text[i]) ^ XOR_value)
@@ -103,7 +104,7 @@ def XOR(XOR_value,text):
                 S += char
             else:
                 S+=text[i]
-    print(S)
+    #print(S)
     return S
 
 
@@ -112,11 +113,11 @@ def decrypt(text,key):
     text = XOR(XOR_value, text)
     text = list(text)
     #print(text)
-    print(dedict)
+    #print(dedict)
     for i in range(len(text)):
         if text[i] in dedict:
             text[i] = dedict[text[i]]
-    print(text)
+    #print(text)
     text = ''.join(text)
 
     return text
