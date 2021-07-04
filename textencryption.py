@@ -97,7 +97,11 @@ def XOR(XOR_value,text):
             print('hey')
             S+=text[i]
         else:
-            S += chr(ord(text[i]) ^ XOR_value)
+            char = chr(ord(text[i]) ^ XOR_value)
+            if char != '\n':
+                S += char
+            else:
+                S+=text[i]
     print(S)
     return S
 
