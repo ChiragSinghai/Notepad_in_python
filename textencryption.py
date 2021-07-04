@@ -1,6 +1,7 @@
-import random
-import string
+#import random
+from string import ascii_letters,digits,whitespace,punctuation
 from random import randint
+
 def getKey(*ranges):
     key = ''
     keylength = randint(2,5)
@@ -22,7 +23,7 @@ def getKey(*ranges):
 
 
 def getdict(key):
-    alphabet = string.ascii_letters + string.digits + string.punctuation + string.whitespace
+    alphabet = ascii_letters + digits + punctuation + whitespace
     #alphabet = alphabet.replace(" ","")
     #print(len(alphabet))
     print(bool(key[0]))
@@ -70,7 +71,7 @@ def getDecryptDict(key):
     m = int(key[1])
     XOR_value = int(key[m + 2:])
     print(XOR_value)
-    alphabet = string.ascii_letters + string.digits + string.punctuation +string.whitespace
+    alphabet = ascii_letters + digits + punctuation +whitespace
     #alphabet = alphabet.replace(" ", "")
     #print(len(alphabet))
     shifted = alphabet
