@@ -20,6 +20,7 @@ def getKey(*ranges):
         key='0'+key
     #print(key)
     #print(key)
+    key='021123'
     return key
 
 
@@ -57,7 +58,7 @@ def encrypt(text,ranges=False):
     text = list(text)
     #print(XOR_value)
     #print(text)
-    #print(endict)
+    #print(endict['{'])
     for i in range(len(text)):
         if text[i] in endict:
             text[i] = endict[text[i]]
@@ -87,7 +88,7 @@ def getDecryptDict(key):
 
     for k, v in zip(shifted,alphabet):
         if k == '\n' or v == '\n':
-            decryptdict[k] = k
+            decryptdict[v] = v
         else:
             decryptdict[k] = v
     return decryptdict,XOR_value
@@ -113,7 +114,7 @@ def decrypt(text,key):
     text = XOR(XOR_value, text)
     text = list(text)
     #print(text)
-    #print(dedict)
+    #print(dedict[' '])
     for i in range(len(text)):
         if text[i] in dedict:
             text[i] = dedict[text[i]]
@@ -123,26 +124,6 @@ def decrypt(text,key):
     return text
 
 if __name__=='__main__':
-    '''
-    with open('P:\\College\\position_salaries.csv') as f:
-        txt = f.read()
-    print(txt)
-    '''
-    text,key = encrypt('hey bitch this is encoding')
+
+    text,key = encrypt(digits+ascii_letters+punctuation+whitespace)
     print(decrypt(text,key))
-    '''
-    alphabet = string.ascii_letters + string.digits + string.punctuation
-    print(alphabet)
-    print(len(alphabet))
-    S=alphabet
-    S=S[7:]+S[:7]
-    print(S)
-    S=S[94-7:]+S[:94-7]
-    print(S)
-    char='j'
-    char = chr(ord(char) ^ 50)
-    print(char)
-    char = chr(ord(char) ^ 50)
-    print(char)
-    '''
-    #print(string.whitespace)

@@ -174,15 +174,36 @@ class NB:
                     self.myText.delete(1.0,END)
                     self.myText.insert(1.0,decrypted_text)
                 self.okbutton1['state'] = 'normal'
+                self.key_entry.delete(0,END)
         if self.savepath:
             img = imread(self.savepath)
             detector = QRCodeDetector()
             data, bbox, straight_qrcode = detector.detectAndDecode(img)
-            print(data)
-            print(bbox)
-            print(straight_qrcode)
+            #print(data)
+            #print(bbox)
+            #print(straight_qrcode)
             if bbox is not None and data != '':
                 print(f"QRCode data:\n{data}")
+                if int(data[0]):
+                    key, start, end = data.split(' ')
+                    start = float(start)
+                    end = float(end)
+                    text = self.myText.get(start, end)
+
+                else:
+                    key = data
+                    text = self.myText.get(1.0, END)
+                    text = text.strip()
+                if str(key).isdigit():
+                    decrypted_text = textencryption.decrypt(text, key)
+                    print(decrypted_text)
+                    if int(data[0]):
+                        self.myText.delete(start, end)
+                        self.myText.insert(start, decrypted_text)
+                    else:
+                        self.myText.delete(1.0, END)
+                        self.myText.insert(1.0, decrypted_text)
+                    self.okbutton1['state'] = 'normal'
 
 
 if __name__=='__main__':
