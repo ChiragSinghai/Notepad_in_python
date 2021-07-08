@@ -107,7 +107,7 @@ class NB:
         else:
             text = self.myText.get(1.0,END)
             text=text.strip()
-        print(text)
+        #print(text)
         if text:
             if not self.check1.get():
                 text1, key = textencryption.encrypt(text)
@@ -166,7 +166,7 @@ class NB:
                 text=text.strip()
             if str(key).isdigit():
                 decrypted_text = textencryption.decrypt(text,key)
-                print(decrypted_text)
+                #print(decrypted_text)
                 if int(self.var.get()[0]):
                     self.myText.delete(start,end)
                     self.myText.insert(start,decrypted_text)
@@ -183,7 +183,7 @@ class NB:
             #print(bbox)
             #print(straight_qrcode)
             if bbox is not None and data != '':
-                print(f"QRCode data:\n{data}")
+                #print(f"QRCode data:\n{data}")
                 if int(data[0]):
                     key, start, end = data.split(' ')
                     start = float(start)
@@ -196,7 +196,7 @@ class NB:
                     text = text.strip()
                 if str(key).isdigit():
                     decrypted_text = textencryption.decrypt(text, key)
-                    print(decrypted_text)
+                    #print(decrypted_text)
                     if int(data[0]):
                         self.myText.delete(start, end)
                         self.myText.insert(start, decrypted_text)
