@@ -116,8 +116,8 @@ class configure():
         self.defaultfont.configure(family=selectedfont,size=selectedsize,weight='bold' if bold else 'normal',slant='italic' if italic else 'roman')
         fontsave.setFont(selectedfont,selectedsize,bold,italic)
         #return selectedfont,selectedsize,bold
-##        print(self.defaultfont.actual())
-##        print(self.exampletextfont.actual())
+        #print(self.defaultfont.actual())
+        #print(self.exampletextfont.actual())
         self.top.destroy()
         
 
