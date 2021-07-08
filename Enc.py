@@ -205,7 +205,7 @@ class Main:
             self.open_file_internal()
 
     def new_file_internal(self):
-        print('hey')
+        #print('hey')
         self.myText.delete(1.0, END)
         self.master.title('untitled-Encrypted')
         self.saved = True
@@ -299,7 +299,7 @@ class Main:
 
     def undo(self, event=None):
         try:
-            print('undo')
+            #print('undo')
             self.myText.edit_undo()
             return 'break'
         except TclError as e:
@@ -308,7 +308,7 @@ class Main:
 
     def redo(self, event=None):
         try:
-            print('bitch')
+            #print('bitch')
             self.myText.edit_redo()
             return 'break'
         except TclError as e:
@@ -316,15 +316,15 @@ class Main:
             return 'break'
 
     def select_all(self, event=None):
-        print(self.myText.index(END))
-        print(type(self.myText.index(END)))
+        #print(self.myText.index(END))
+        #print(type(self.myText.index(END)))
         for i in range(1,int(self.myText.index(END).split('.')[0])):
             self.myText.tag_add('sel',f'{i}.0',f'{i}.end')
         #self.myText.tag_add('sel', 1.0, END)
         return "break"
 
     def backspace(self, event):
-        print('here')
+        #print('here')
         self.rowandcolumn(event)
         #self.myText.edit_separator()
 
@@ -363,7 +363,7 @@ class Main:
             self.horizontal_scroll.pack(side=BOTTOM, fill=X)
 
     def position(self, event):
-        print(event)
+        #print(event)
         self.myText.mark_set('insert', "@%d,%d" % (event.x, event.y))
         current_cursor = self.myText.index(INSERT).split(".")
         self.row_label.config(text=f'row: {current_cursor[0]}')
@@ -382,4 +382,4 @@ if __name__=='__main__':
     if len(sys.argv) >= 2:
         obj.open_file_internal(sys.argv[1])
     root.mainloop()
-    print('this is the end')
+    #print('this is the end')

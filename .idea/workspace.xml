@@ -36,7 +36,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Python.textencryption">
+  <component name="RunManager" selected="Python.Enc">
     <configuration name="Enc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Notepad_in_python" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -144,9 +144,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Enc" />
         <item itemvalue="Python.textencryption" />
         <item itemvalue="Python.notebook" />
-        <item itemvalue="Python.Enc" />
         <item itemvalue="Python.filemanager" />
         <item itemvalue="Python.configure" />
       </list>
