@@ -100,10 +100,13 @@ class NB:
         self.saveQR.place(relx=0.7,rely=0.9)
 
     def callEncrypt(self):
-        ranges = self.myText.tag_ranges(SEL)
-        if ranges and self.check1.get():
-            text = self.myText.get(*ranges)
 
+        if self.check1.get():
+            ranges = self.myText.tag_ranges(SEL)
+            if ranges:
+                text = self.myText.get(*ranges)
+            else:
+                return
         else:
             text = self.myText.get(1.0,END)
             text=text.strip()
