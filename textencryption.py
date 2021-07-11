@@ -18,9 +18,6 @@ def getKey(*ranges):
         key='1'+key+' '+str(start)+' '+str(end)
     else:
         key='0'+key
-    #print(key)
-    #print(key)
-    key='021123'
     return key
 
 
