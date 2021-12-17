@@ -9,13 +9,18 @@ Encrypted:A desktop application like notepad through which user can create,save 
 it comes with an additional feature of encryption and security.User can either select which part of the text to
 encrypt or to encrypt the complete file into cipher text.The user can either copy the key or save it as a QR. Using Key/QR, user can decrypt the cipher text into plain text.The encryption algorithm consists of random Shift cipher and XOR operations.
 
-	
+## Virtual Enviroment(venv)
+While there are a few ways to achieve a programming environment in Python, we’ll be using the venv module here, which is part of the standard Python 3 library. Let’s install venv by typing:
+
+$ pip install venv
+$ python3 -m venv env
+$ .\env\Scripts\activate
+
+
 ## Technologies
 Project is created with:
-* Lorem version: 12.3
-* Ipsum version: 2.33
-* Ament library version: 999
-	
+* Python 3.8
+
 ## Setup
 To run this project, install it locally using npm:
 
