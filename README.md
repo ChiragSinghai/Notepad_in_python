@@ -23,6 +23,7 @@ While there are a few ways to achieve a programming environment in Python, we’
 pip install venv
 python3 -m venv env
 .\env\Scripts\activate
+pip install -r requirements.txt
 ```
 
 ## Technologies
