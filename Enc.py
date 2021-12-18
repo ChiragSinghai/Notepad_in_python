@@ -41,7 +41,7 @@ class Main:
         # self.filemenu
         self.filemenu = Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label="File", menu=self.filemenu)
-        self.filemenu.add_command(label="New playlist", accelerator="Ctrl+N", command=self.new_file)
+        self.filemenu.add_command(label="New file", accelerator="Ctrl+N", command=self.new_file)
         self.filemenu.add_command(label="Open file", accelerator='Ctrl+O', command=self.open_file)
         self.filemenu.add_command(label="Save", accelerator='Ctrl+S', command=self.save_file)
         self.filemenu.add_command(label="Save as...", accelerator='Ctrl+Shift+S', command=self.save_as_file)
