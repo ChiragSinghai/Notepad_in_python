@@ -8,6 +8,7 @@ import fontsave
 class configure():
     def __init__(self,root,X,Y,defaultfont):
         self.top = Toplevel(root)
+        self.top.iconbitmap('folder/Icon.ico')
         self.defaultfont = defaultfont
         self.width=600
         self.height=root.winfo_screenheight()-100

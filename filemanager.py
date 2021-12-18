@@ -1,6 +1,6 @@
 import os
 from tkinter import *
-path = 'P://Encrypted//'
+path = 'folder/'
 def createFolder():
     if os.path.isdir(path):
         return

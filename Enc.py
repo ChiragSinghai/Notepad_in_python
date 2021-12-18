@@ -378,6 +378,7 @@ class Main:
 
 if __name__=='__main__':
     root = Tk()
+    root.iconbitmap('folder/Icon.ico')
     obj = Main(root)
     if len(sys.argv) >= 2:
         obj.open_file_internal(sys.argv[1])
