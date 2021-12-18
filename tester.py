@@ -7,6 +7,7 @@ class Replace:
         if not Replace.exist:
             self.master = master
             self.replacemaster = Toplevel(self.master, takefocus=True)
+            self.replacemaster.iconbitmap('folder/Icon.ico')
             self.replacemaster.protocol("WM_DELETE_WINDOW",self.onclose)
             self.textobj = textobj
             self.current_index = None
@@ -161,6 +162,7 @@ class Find:
         if not Find.exist:
             self.master = master
             self.findmaster = Toplevel(self.master, takefocus=True)
+            self.findmaster.iconbitmap('folder/Icon.ico')
             self.findmaster.protocol("WM_DELETE_WINDOW", self.onclose)
             self.textobj = textobj
             self.design()

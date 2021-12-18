@@ -6,6 +6,7 @@ from cv2 import QRCodeDetector,imread
 import qrcode
 class NB:
     exist = False
+
     def __init__(self,master,myText):
         if not NB.exist:
             self.myText = myText
@@ -16,6 +17,7 @@ class NB:
             self.NB = ttk.Notebook(self.top,takefocus=True)
             self.top.resizable(False,False)
             self.NB.pack(expand=True,pady=5)
+            self.top.iconbitmap(path+'Icon.ico')
             #self.NB.focus_set()
             style = ttk.Style()
             style.theme_use('default')
