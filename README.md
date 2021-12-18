@@ -4,6 +4,7 @@
 * [Installation](#installation)
 * [Virtual Enviroment](#virtual_enviroment)
 * [Technologies](#technologies)
+* [License](#license)
 * [Contact](#contact)
 
 ## About The project
@@ -29,6 +30,10 @@ pip install -r requirements.txt
 ## Technologies
 Project is created with:
 * Python 3.8
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
 
 
 ## Contact
